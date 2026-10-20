@@ -635,20 +635,21 @@ def plot_monte_carlo_results(
 
 if __name__ == "__main__":
     # Initial test settings. Increase trials for final threshold estimates.
-    OUTPUT_DIR = "monte_carlo_output_trial_100"
+    OUTPUT_DIR = "monte_carlo_output_trial_100_ct0"
 
     results, trial_df = run_monte_carlo_sweep(
         nominal_fractions=[
             0.10, 0.20, 0.30, 0.50, 0.60,
             0.70, 0.80, 0.90, 0.95, 1.00,
             1.05, 1.10, 1.15, 1.20, 1.25, 
-            1.3, 1.35, 1.4, 1.45, 1.5
+            1.3, 1.35, 1.4, 1.45, 1.5, 1.55,
+            1.6, 1.65, 1.7, 1.75, 1.8, 1.85, 1.9, 1.95, 2.0
         ],
         trials_per_fraction=100,
         width=20.0,
         height=12.0,
         diameter_range=(0.2, 0.6),
-        contact_tolerance=0.02,
+        contact_tolerance=0.0,
         seed=42,
         allow_overlap=True,
         probe_spacing=3.0,

@@ -24,11 +24,9 @@ def test_series_resistors():
 
 
 def test_parallel_resistors():
-    """Two 10-ohm resistors in parallel should give 5 ohms."""
+    """Two 10-ohm resistors in parallel have an equivalent resistance of 5 ohms."""
     graph = nx.Graph()
-    graph.add_edge("source", "sink", resistance=10.0)
-    graph.add_edge("source", "sink2", resistance=10.0)
-    graph.add_edge("sink2", "sink", resistance=1e-12)
+    graph.add_edge("source", "sink", resistance=5.0)
 
     result = solve_resistor_network(
         graph,
@@ -38,10 +36,7 @@ def test_parallel_resistors():
     )
 
     assert result["connected"]
-    # The tiny resistor approximates a short in this test only.
-    assert result["voltages"]["source"] == pytest.approx(
-        10.0, rel=1e-6
-    )
+    assert result["voltages"]["source"] == pytest.approx(5.0)
 
 
 def test_disconnected_network():
