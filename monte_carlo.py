@@ -635,7 +635,7 @@ def plot_monte_carlo_results(
 
 if __name__ == "__main__":
     # Initial test settings. Increase trials for final threshold estimates.
-    OUTPUT_DIR = "monte_carlo_output_trial_500_ct0"
+    OUTPUT_DIR = "monte_carlo_output_trial_500_ct0_psize_0,6-1,0"
 
     results, trial_df = run_monte_carlo_sweep(
         nominal_fractions=[
@@ -648,7 +648,7 @@ if __name__ == "__main__":
         trials_per_fraction=500,
         width=20.0,
         height=12.0,
-        diameter_range=(0.2, 0.6),
+        diameter_range=(0.6, 1.0),
         contact_tolerance=0.0,
         seed=42,
         allow_overlap=True,

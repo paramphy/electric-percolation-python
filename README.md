@@ -1,68 +1,71 @@
-# CuS–ZnS 2D percolation prototype
+# Monte Carlo Percolation and Electrical Resistance
 
-This is a deliberately simple research prototype for 2D CuS grain morphology,
-contact-network connectivity and a four-point-probe electrical calculation.
+A single-core Python workflow to study geometric percolation and four-probe resistance in simulated grain-based thin films.
 
-## Install
+## Features
 
-```bash
-python -m pip install numpy scipy networkx matplotlib
-```
+- Monte Carlo simulations across four particle-size ranges and eight nominal fractions.
+- Geometric spanning probability and percolation-threshold estimates.
+- Actual occupied area-fraction calculation.
+- Four-probe resistance calculations for spanning morphologies.
+- CSV summaries, metadata, and publication-ready PNG/PDF plots.
 
-## Run the demo
+## Requirements
 
-```bash
-python demo.py
-```
+Python 3.10+ with NumPy, pandas, Matplotlib, and SciPy, plus the project modules:
 
-The demo uses a small domain and reduced probe spacing so it runs quickly.
-Its output is **not a calibrated prediction** of experimental resistance.
+- `morphology.py`
+- `network.py`
+- `area_fraction.py`
+- `electrical.py`
 
-## Current assumptions and limitations
-
-- 2D circles represent CuS-rich grains in a ZnS-rich background.
-- The diameter distribution is currently uniform over the chosen interval;
-  replace it with an SEM-measured distribution when available.
-- `allow_overlap=True` is used in the demo. In this case the nominal area
-  fraction counts overlapping circle areas multiple times and is not the
-  true occupied area fraction.
-- `allow_overlap=False` uses random sequential addition and will jam before
-  high area fractions are reached.
-- Contacts are geometrical only; there is no tunnelling.
-- The current electrical model treats each grain as equipotential and places
-  a grain-boundary resistor between contacting grains. It does **not yet**
-  separately resolve intragrain resistance. A physically consistent model
-  with both grain and boundary resistance requires a multi-terminal grain
-  model or internal resistive elements; simply adding a full grain resistance
-  to every contact edge would double-count grain contributions.
-- Four ideal collinear point probes are approximated as nodes coupled to
-  grains intersecting their contact radius. A real four-point probe also
-  requires calibrated probe contact geometry and finite-sample corrections.
-- The domain dimensions and probe spacing must use the same units.
-
-## Recommended next steps
-
-1. Validate the graph using hand-built test morphologies.
-2. Validate the resistor solver on simple series/parallel networks.
-3. Add a physically justified intragrain resistance representation.
-4. Estimate grain-size distribution from SEM.
-5. Test finite-size convergence and compare simulated sheet resistance with
-   experimental measurements.
-
-
-## Electrical solver validation
-
-The resistor-network solver can be checked against known circuits before using
-it to interpret film simulations. From this directory, run:
+Install dependencies:
 
 ```bash
-PYTHONPATH=. pytest -q
+python -m pip install numpy pandas matplotlib scipy
 ```
 
-The analytical tests cover a single resistor, a two-resistor series circuit,
-two equal branches in parallel, a disconnected source/sink pair, and rejection
-of non-positive resistance values. The solver returns `connected=False` for a
-disconnected source/sink pair instead of reporting a finite resistance. These
-tests validate the numerical network solver; they do not yet validate the
-physical assumptions of the CuS grain/contact model or calibrate it to a real
-four-point-probe instrument.
+## Run
+
+From the project root:
+
+```bash
+python percolation_size_threshold_study_with_resistance.py
+```
+
+The default configuration uses 500 trials per condition: 4 particle-size ranges × 8 nominal fractions = 16,000 trials.
+
+## Key Parameters
+
+| Parameter | Default |
+|---|---:|
+| Grain-boundary resistance | 1 Ω |
+| Grain resistivity | 10⁻⁵ Ω·m |
+| Film thickness | 92 nm |
+| Effective width | 200 nm |
+| Probe spacing | 1 model unit |
+| Target valid resistance readings | 100 per condition |
+
+Probe spacing and length conversion assume one model unit corresponds to 1 µm. Verify these assumptions, along with film thickness and effective width, before comparing results with experiments.
+
+Only finite, positive resistance values are retained; negative values are rejected, not converted using `abs()`. The target of 100 valid readings is not guaranteed for every condition.
+
+## Outputs
+
+The results directory contains trial-level data, percolation and resistance summaries, threshold estimates, run metadata, and figures in PNG/PDF formats.
+
+Key files include:
+
+- `percolation_trial_results.csv`
+- `percolation_threshold_estimates.csv`
+- `resistance_summary_by_condition.csv`
+- `valid_resistance_measurements.csv`
+- `run_metadata.json`
+
+## Notes
+
+- Nominal fraction can exceed 1 because particles may overlap.
+- Actual area fraction is estimated by rasterizing the 2D morphology.
+- Geometric spanning does not guarantee a valid electrical result.
+- Results depend on simulation parameters and electrical-model assumptions; validate them before making quantitative experimental claims.
+
