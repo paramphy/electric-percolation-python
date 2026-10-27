@@ -59,11 +59,11 @@ from electrical import four_probe_resistance_multiterminal
 # Configuration
 # =====================================================================
 
-N_TRIALS = 1000
+N_TRIALS = 2000
 
 # Nominal sum-of-disk-area/domain-area ratios.
 NOMINAL_FRACTIONS = np.round(
-    np.arange(0.4, 1.81, 0.2), 3
+    np.arange(0.4, 1.81, 0.1), 3
 ).tolist()
 
 PARTICLE_SIZE_RANGES = {
@@ -85,7 +85,7 @@ AREA_PIXELS_PER_UNIT = 50
 
 MASTER_SEED = 20261027
 
-OUTPUT_DIR = Path("results_1000") / "percolation_size_threshold_study"
+OUTPUT_DIR = Path("results_2000") / "percolation_size_threshold_study"
 FIGURE_DIR = OUTPUT_DIR / "figures"
 NETWORK_DIR = OUTPUT_DIR / "representative_networks"
 
