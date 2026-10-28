@@ -85,7 +85,7 @@ AREA_PIXELS_PER_UNIT = 50
 
 MASTER_SEED = 20261027
 
-OUTPUT_DIR = Path("results_2000") / "percolation_size_threshold_study"
+OUTPUT_DIR = Path("results_2000_run_1") / "percolation_size_threshold_study"
 FIGURE_DIR = OUTPUT_DIR / "figures"
 NETWORK_DIR = OUTPUT_DIR / "representative_networks"
 
@@ -861,7 +861,7 @@ def plot_resistance_vs_nominal(summary: pd.DataFrame):
         ax.fill_between(x, q25, q75, alpha=0.16)
 
     ax.set_xlabel("Nominal disk fraction, η")
-    ax.set_ylabel("Four-probe transfer resistance (Ω)")
+    ax.set_ylabel("Four-probe transfer resistance (a.u.)")
     ax.set_title("Positive four-probe resistance versus nominal fraction")
     ax.grid(alpha=0.22)
     ax.legend(frameon=False, ncol=2)
@@ -908,7 +908,7 @@ def plot_resistance_vs_actual(trials: pd.DataFrame):
         )
 
     ax.set_xlabel("Actual occupied 2D area fraction")
-    ax.set_ylabel("Four-probe transfer resistance (Ω)")
+    ax.set_ylabel("Four-probe transfer resistance (a.u.)")
     ax.set_title("Positive four-probe resistance versus actual area fraction")
     ax.grid(alpha=0.22)
     ax.legend(frameon=False, ncol=2)
@@ -938,7 +938,7 @@ def plot_resistance_distributions(trials: pd.DataFrame):
             )
             ax.set_title(f"Particle size {label}")
             ax.set_xlabel("Nominal disk fraction, η")
-            ax.set_ylabel("Resistance (Ω)")
+            ax.set_ylabel("Resistance (a.u.)")
             continue
 
         fractions = sorted(subset["nominal_target_fraction"].unique())
@@ -961,7 +961,7 @@ def plot_resistance_distributions(trials: pd.DataFrame):
         ax.set_xticklabels([f"{f:.1f}" for f in fractions])
         ax.set_title(f"Particle size {label}")
         ax.set_xlabel("Nominal disk fraction, η")
-        ax.set_ylabel("Resistance (Ω)")
+        ax.set_ylabel("Resistance (a.u.)")
         ax.grid(axis="y", alpha=0.22)
 
     fig.suptitle("Distribution of accepted positive four-probe readings")
